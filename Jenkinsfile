@@ -4,7 +4,7 @@ pipeline {
         stage('Build JAR with Docker') {
             steps {
                 script {
-                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside("-v /path/to/your/local/repo:/root/.m2/repository") {
+                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside('-u root') {
                         sh 'mvn clean package -DskipTests'
                     }
                 }
