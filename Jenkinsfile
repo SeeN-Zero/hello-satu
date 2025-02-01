@@ -11,16 +11,13 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside {
-                        sh 'docker build -f src/main/docker/Dockerfile.jvm'
+        stage('Run JAR with Docker') {
+                    steps {
+                        script {
+                            sh 'docker run --rm -v $(pwd)/target/quarkus-app:/app -w /app eclipse-temurin:21 java -jar quarkus-run.jar'
+                        }
                     }
                 }
-            }
-        }
     }
 
     post {
