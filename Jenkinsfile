@@ -16,7 +16,7 @@ pipeline {
         stage('Run JAR with Docker') {
             steps {
                 script {
-                    sh 'docker run --rm -v $(pwd)/target/quarkus-app:/app -w /app -p 5000:5000 eclipse-temurin:21 java -jar quarkus-run.jar'
+                    sh 'docker run --rm -v $(pwd)/target/quarkus-app:/app -w /app -p 3000:3000 eclipse-temurin:21 java -jar quarkus-run.jar'
                 }
             }
         }
