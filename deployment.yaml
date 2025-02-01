@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-satu
+  labels:
+    app: hello-satu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-satu
+  template:
+    metadata:
+      name: hello-satu
+      labels:
+        app: hello-satu
+    spec:
+      containers:
+        - name: hello-satu
+          image: hello-satu:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-satu
+spec:
+  selector:
+    app: hello-satu
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
