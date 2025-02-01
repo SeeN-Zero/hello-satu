@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Build JAR with Docker') {
             steps {
@@ -8,16 +9,17 @@ pipeline {
                         sh 'mvn clean package -DskipTests'
                     }
                 }
-                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'target/quarkus-app/quarkus-run.jar', allowEmptyArchive: true
             }
         }
+
         stage('Run JAR with Docker') {
-                    steps {
-                        script {
-                            sh 'docker run --rm -v $(pwd)/target/quarkus-app:/app -w /app eclipse-temurin:21 java -jar quarkus-run.jar'
-                        }
-                    }
+            steps {
+                script {
+                    sh 'docker run --rm -v $(pwd)/target/quarkus-app:/app -w /app -p 5000:5000 eclipse-temurin:21 java -jar quarkus-run.jar'
                 }
+            }
+        }
     }
 
     post {
